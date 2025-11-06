@@ -1,27 +1,21 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { IoIosArrowDown } from 'react-icons/io'
-import { FaCartPlus } from 'react-icons/fa'
-import { HiOutlineBars3CenterLeft } from 'react-icons/hi2'
+import { FaCartPlus, FaRegHeart } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
+import { IoMenu } from 'react-icons/io5'
+import logofull from '../assets/logofull.png'
 
-const ScrolldMenu = ({categoryShow, searchRef, handleSearchValue, handkeKeyDown, searchFilter, activeIndex, itemRefs, handleCate, handleSearchShow}) => {
+const ScrolldMenu = ({categoryShow, searchRef, handleSearchValue, handkeKeyDown, searchFilter, activeIndex, itemRefs, handleCate, handleSearchShow, handleLeftMenu}) => {
+
   let rdata = useSelector((state)=>state.product.cartItem)
+
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        <div className='relative group'>
-          <div className='flex items-center gap-x-2 text-white cursor-pointer'>
-            <HiOutlineBars3CenterLeft className='text-[25px]' />
-            <h2 className="text-[16px] font-jose font-bold text-white">All Category</h2>
-            <IoIosArrowDown className='group-hover:rotate-180 transition-all ease-in-out duration-200 text-2xl' />
-          </div>
-          <div className='absolute top-6 left-0 bg-violet-950 pt-4 pb-2 capitalize z-[99999] w-full opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all ease-in-out duration-300'>
-            <ul className='pt-2'>
-              {categoryShow.map((item) => (
-                <li onClick={() => handleCate(item)} className='text-white py-2 hover:bg-indigo-900 px-2 hover:px-6 transition-all ease-in-out duration-300 cursor-pointer text-[14px] font-bold font-lat'>{item}</li>
-              ))}
-            </ul>
+    <div className=''>
+      <div className="flex items-center justify-between relative">
+        <div className=''>
+          <div className='flex items-center gap-x-2 text-white'>
+            <IoMenu onClick={handleLeftMenu} className='text-[50px] cursor-pointer' />
+            <img src={logofull} alt="" className='h-11 invert brightness-0 cursor-pointer' />
           </div>
         </div>
         <div className="w-[60%] relative" ref={searchRef}>
@@ -48,14 +42,26 @@ const ScrolldMenu = ({categoryShow, searchRef, handleSearchValue, handkeKeyDown,
             </div>
           )}
         </div>
-        <div>
-          <div className='relative'>
-            <Link to={"/cart"}>
-              <FaCartPlus className='text-4xl text-white' />
-              <div className='absolute -top-2 -right-3'>
-                <h4 className={`${rdata.length < 1 ? "text-red-500 bg-gray-100 shadow h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md" : "text-indigo-950 bg-gray-100 h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md"}`}>{rdata.length}</h4>
-              </div>
-            </Link>
+        <div className='flex items-center gap-x-8'>
+          <div>
+            <div className='relative'>
+              <Link to={"/wishlist"}>
+                <FaRegHeart className='text-3xl text-white' />
+                <div className='absolute -top-2 -right-3'>
+                  <h4 className={`${rdata.length < 1 ? "text-red-500 bg-gray-100 shadow h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md" : "text-indigo-950 bg-gray-100 h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md"}`}>{rdata.length}</h4>
+                </div>
+              </Link>
+            </div>
+          </div>
+          <div>
+            <div className='relative'>
+              <Link to={"/cart"}>
+                <FaCartPlus className='text-3xl text-white' />
+                <div className='absolute -top-2 -right-3'>
+                  <h4 className={`${rdata.length < 1 ? "text-red-500 bg-gray-100 shadow h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md" : "text-indigo-950 bg-gray-100 h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md"}`}>{rdata.length}</h4>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
