@@ -1,14 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Container from './Container'
 import { Link, NavLink } from 'react-router-dom'
-import { FaCartPlus, FaUser } from 'react-icons/fa'
 import { FiHeart } from 'react-icons/fi'
-import { useSelector } from 'react-redux'
-import { CiMenuFries } from 'react-icons/ci'
+import { CiMenuFries, CiUser } from 'react-icons/ci'
 import { GrClose } from 'react-icons/gr'
+import logofull from '../assets/logofull.png'
 
 const Header = () => {
-  let rdata = useSelector((state)=>state.product.cartItem)
 
   let menuRef = useRef()
   let [openMenu, setOpenMenu] = useState(false)
@@ -31,7 +29,7 @@ const Header = () => {
         <div className='flex items-center justify-between'>
           <div>
             <Link to={"/"} target='_top'>
-             <h1 className='text-black text-3xl font-extrabold font-jose inline-block'>Shopex</h1>
+              <img src={logofull} alt="" className='h-12' />
             </Link>
           </div>
           <div ref={menuRef}>
@@ -40,27 +38,27 @@ const Header = () => {
               {openMenu == true ? <GrClose className='text-2xl cursor-pointer' /> : "" }
             </div>
               <li className='pb-2 md:pb-0'>
-                <NavLink to={"/"} target='_top' className={({isActive})=> `text-[14px] font-jose font-bold hover:text-violet-600 ${isActive ? "text-red-500" : "text-violet-950" }`}>
+                <NavLink to={"/"} target='_top' className={({isActive})=> `text-[14px] font-jose font-semibold hover:text-violet-600 ${isActive ? "text-red-500" : "text-violet-950" }`}>
                   Home
                 </NavLink>
               </li>
               <li className='pb-2 md:pb-0'>
-                <NavLink to={"/products"} target='_top' className={({isActive})=> `text-[14px] font-jose font-bold hover:text-violet-600 ${isActive ? "text-red-500" : "text-violet-950" }`}>
+                <NavLink to={"/products"} target='_top' className={({isActive})=> `text-[14px] font-jose font-semibold hover:text-violet-600 ${isActive ? "text-red-500" : "text-violet-950" }`}>
                   Products
                 </NavLink>
               </li>
               <li className='pb-2 md:pb-0'>
-                <NavLink to={"/blog"} target='_top' className={({isActive})=> `text-[14px] font-jose font-bold hover:text-violet-600 ${isActive ? "text-red-500" : "text-violet-950" }`}>
+                <NavLink to={"/blog"} target='_top' className={({isActive})=> `text-[14px] font-jose font-semibold hover:text-violet-600 ${isActive ? "text-red-500" : "text-violet-950" }`}>
                   Blog
                 </NavLink>
               </li>
               <li className='pb-2 md:pb-0'>
-                <NavLink to={"/aboutus"} target='_top' className={({isActive})=> `text-[14px] font-jose font-bold hover:text-violet-600 ${isActive ? "text-red-500" : "text-violet-950" }`}>
+                <NavLink to={"/aboutus"} target='_top' className={({isActive})=> `text-[14px] font-jose font-semibold hover:text-violet-600 ${isActive ? "text-red-500" : "text-violet-950" }`}>
                   About Us
                 </NavLink>
               </li>
               <li className='pb-2 md:pb-0'>
-                <NavLink to={"/contact"} target='_top' className={({isActive})=> `text-[14px] font-jose font-bold hover:text-violet-600 ${isActive ? "text-red-500" : "text-violet-950" }`}>
+                <NavLink to={"/contact"} target='_top' className={({isActive})=> `text-[14px] font-jose font-semibold hover:text-violet-600 ${isActive ? "text-red-500" : "text-violet-950" }`}>
                   Contact
                 </NavLink>
               </li>
@@ -68,21 +66,15 @@ const Header = () => {
           </div>
           <div className='flex items-center gap-x-6'>
             <div>
-              <Link to={"/myaccount"}>
-                <FaUser className='text-lg' />
+              <Link to={"/wishlist"} className='flex items-center gap-x-2 group border-l border-l-[#00000045]'>
+                <FiHeart className='text-[17px] text-violet-950 group-hover:text-violet-600 ml-4' />
+                <p className='text-[14px] font-semibold font-jose text-violet-950 group-hover:text-violet-600'>Wishlist</p>
               </Link>
             </div>
             <div>
-              <Link to={"/wishlist"}>
-                <FiHeart className='text-xl' />
-              </Link>
-            </div>
-            <div className='relative'>
-              <Link to={"/cart"}>
-                <FaCartPlus className='text-xl' />
-                <div className='absolute -top-2 -right-3'>
-                  <h4 className={`${rdata.length < 1 ? "text-red-500 bg-gray-300 shadow h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md border border-gray-400" : "text-indigo-950 bg-gray-300 shadow h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md border border-gray-400"}`}>{rdata.length}</h4>
-                </div>
+              <Link to={"/myaccount"} className='flex items-center gap-x-2 group border-l border-l-[#00000045]'>
+                <CiUser className='text-[18px] text-violet-950 group-hover:text-violet-600 ml-2' />
+                <p className='text-[14px] font-semibold font-jose text-violet-950 group-hover:text-violet-600'>Login / SignUp</p>
               </Link>
             </div>
           </div>
@@ -91,12 +83,6 @@ const Header = () => {
           </div>
         </div>
       </Container>
-      {/* {openMenu && (
-        <div
-          className="fixed inset-0 bg-[#00000012] z-30"
-          onClick={() => setOpenMenu(false)}
-        ></div>
-      )} */}
     </header>
   )
 }

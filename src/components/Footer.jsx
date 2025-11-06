@@ -1,6 +1,7 @@
 import React from 'react'
 import Container from './Container'
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from 'react-icons/fa'
+import logofull from '../assets/logofull.png'
 
 const Footer = () => {
   return (
@@ -8,7 +9,7 @@ const Footer = () => {
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
-          <h1 className='text-white text-4xl font-extrabold font-jose pb-4'>Shopex</h1>
+          <img src={logofull} alt="" className="invert brightness-0 w-40 pb-3 cursor-pointer" />
           <p className="text-gray-400">
             We provide exclusive products with premium quality, fast delivery, and guaranteed customer satisfaction.
           </p>
@@ -30,12 +31,13 @@ const Footer = () => {
           </ul>
         </div>
         <div>
-          <h3 className="text-white font-semibold mb-3">Customer Service</h3>
+          <h3 className="text-white font-semibold mb-3">Let Us Help You</h3>
           <ul className="space-y-2">
             <li><a href="#" className="hover:text-white">FAQs</a></li>
+            <li><a href="#" className="hover:text-white">Your Account</a></li>
             <li><a href="#" className="hover:text-white">Shipping & Delivery</a></li>
             <li><a href="#" className="hover:text-white">Returns & Refunds</a></li>
-            <li><a href="#" className="hover:text-white">Support</a></li>
+            <li><a href="#" className="hover:text-white">Chat With Us</a></li>
           </ul>
         </div>
         <div>
@@ -58,9 +60,9 @@ const Footer = () => {
             </p>
         </div>
       </div>
-      <div className="border-t-2 border-gray-800 mt-8 py-4 text-center text-gray-300 text-sm">
-        © 2025 Shopex. All rights reserved.
-      </div>
+        <div className="border-t-2 border-gray-700 mt-8 py-4 text-center text-gray-300 text-md">
+          © {new Date().getFullYear()} Electro Selling. All rights reserved.
+        </div>
       </Container>
     </footer>
   )

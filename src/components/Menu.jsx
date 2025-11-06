@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import Container from './Container'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { GrSearch } from 'react-icons/gr'
-import { IoIosArrowDown } from 'react-icons/io'
 import { apiData } from './ContextApi'
-import { FaEquals } from 'react-icons/fa'
+import FixedMenu from './FixedMenu'
+import { useNavigate } from 'react-router-dom'
+import ScrolldMenu from './ScrollMenu'
 
 const Menu = () => {
   let data = useContext(apiData)
@@ -83,61 +82,50 @@ const Menu = () => {
     }
   }, [activeIndex]);
 
+
+  let [isSticky, setIsSticky] = useState(false)
+  useEffect(()=>{
+    let handleScroll = ()=>{
+      let scrolled = window.scrollY
+      if(scrolled > 130){
+        setIsSticky(true)
+      }else{
+        setIsSticky(false)
+      }
+    }
+    document.addEventListener("scroll", handleScroll)
+    return ()=> document.removeEventListener("scroll", handleScroll)
+  },[])
+
   return (
-    <nav className="bg-gray-900 py-2 shadow">
+    <nav className={`py-4 shadow ${isSticky == true ? "fixed top-0 w-full bg-violet-950 z-[9999] left-0" : "bg-indigo-950" }`}>
       <Container>
-        <div className="flex items-center justify-between">
-          <div className='relative group'>
-            <div className='flex items-center gap-x-4 text-white cursor-pointer pr-6'>
-              <h2 className="text-[16px] font-jose font-bold text-white">Shop by Category</h2>
-              <IoIosArrowDown className='group-hover:rotate-180 transition-all ease-in-out duration-200 text-2xl' />
-            </div>
-            <div className='absolute top-6 left-0 bg-gray-900 pt-4 pb-2 capitalize z-[99999] w-full opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all ease-in-out duration-300'>
-              <ul>
-                {categoryShow.map((item) => (
-                  <li onClick={()=>handleCate(item)} className='text-white py-2 hover:bg-indigo-900 px-2 hover:px-6 transition-all ease-in-out duration-300 cursor-pointer text-[14px] font-bold font-lat'>{item}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="w-[60%] relative" ref={searchRef}>
-            <div className="relative">
-              <input
-                type="search"
-                onChange={handleSearchValue}
-                onKeyDown={handkeKeyDown}
-                className={`w-full py-2 pl-6 pr-14 bg-gray-50 outline-2 outline-indigo-900  focus:outline-blue-600 ${searchFilter.length > 0 ? "rounded-t-xl" : "rounded-xl" }`}
-                placeholder="Search for products..."
-              />
-              <div className="absolute top-[50%] -translate-y-[50%] right-6">
-                <GrSearch />
-              </div>
-            </div>
-            {searchFilter.length > 0 &&(
-              <div className='absolute top-10 left-0 bg-white shadow w-full z-[99999] h-screen overflow-y-scroll rounded-b-xl'>
-              {searchFilter.map((item, index) => (
-                <div ref={el => itemRefs.current[index] = el}  className={`flex items-center justify-between py-6 cursor-pointer ${activeIndex == index ? "bg-gray-200" : "hover:bg-gray-200 " }`} onClick={()=>handleSearchShow(item)}>
-                  <h2 className='pl-4'>{item.title}</h2>
-                  <img src={item.image} alt="" className='h-8 w-8 mr-4' />
-                </div>
-              ))}
-            </div>
-            )}
-          </div>
-          <div>
-            <ul className='flex items-center gap-x-4'>
-              <li>
-                <NavLink to={"/login"} target='_top' className="text-[16px] font-jose font-bold hover:text-[#ffffffb6] text-white">
-                  Login
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to={"/signup"} target='_top' className="text-[16px] font-jose font-bold hover:text-[#ffffffb6] text-white">
-                  Sign Up
-                </NavLink>
-              </li>
-            </ul>
-          </div>
+        <div>
+          {isSticky == true ?
+          <ScrolldMenu
+            categoryShow={categoryShow}
+            searchRef={searchRef}
+            handleSearchValue={handleSearchValue}
+            handkeKeyDown={handkeKeyDown}
+            searchFilter={searchFilter}
+            activeIndex={activeIndex}
+            itemRefs={itemRefs}
+            handleCate={handleCate}
+            handleSearchShow={handleSearchShow}
+          />
+          :
+          <FixedMenu
+            categoryShow={categoryShow}
+            searchRef={searchRef}
+            handleSearchValue={handleSearchValue}
+            handkeKeyDown={handkeKeyDown}
+            searchFilter={searchFilter}
+            activeIndex={activeIndex}
+            itemRefs={itemRefs}
+            handleCate={handleCate}
+            handleSearchShow={handleSearchShow}
+          />
+          }
         </div>
       </Container>
     </nav>
