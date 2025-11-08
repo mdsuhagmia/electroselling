@@ -31,6 +31,15 @@ const Menu = () => {
     }
   }
 
+  //! search btn click logic
+  let handleSearchClick = () => {
+    if (searchFilter.length > 0) {
+      navigate('/products', { state: { cateData: searchFilter, category: 'Search Results' } });
+      setSearchFilter([]);
+      setSearch("");
+    }
+  };
+
   let searchRef = useRef()
   useEffect(()=>{
     let handleClickOutsite = (e)=>{
@@ -128,6 +137,7 @@ const Menu = () => {
             handleCate={handleCate}
             handleSearchShow={handleSearchShow}
             handleLeftMenu={handleLeftMenu}
+            handleSearchClick={handleSearchClick}
           />
           :
           <FixedMenu
@@ -140,6 +150,7 @@ const Menu = () => {
             itemRefs={itemRefs}
             handleCate={handleCate}
             handleSearchShow={handleSearchShow}
+            handleSearchClick={handleSearchClick}
           />
           }
         </div>

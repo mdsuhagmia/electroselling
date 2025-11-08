@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { IoMenu } from 'react-icons/io5'
 import logofull from '../assets/logofull.png'
 
-const ScrolldMenu = ({searchRef, handleSearchValue, handkeKeyDown, searchFilter, activeIndex, itemRefs, handleSearchShow, handleLeftMenu}) => {
+const ScrolldMenu = ({searchRef, handleSearchValue, handkeKeyDown, searchFilter, activeIndex, itemRefs, handleSearchShow, handleLeftMenu, handleSearchClick}) => {
 
   let rdata = useSelector((state)=>state.product.cartItem)
 
@@ -27,7 +27,7 @@ const ScrolldMenu = ({searchRef, handleSearchValue, handkeKeyDown, searchFilter,
               className={`w-full py-2 pl-6 pr-36 bg-gray-50 outline-2 outline-indigo-900 focus:outline-blue-600 ${searchFilter.length > 0 ? "rounded-t-xl focus:outline-0" : "rounded-xl"}`}
               placeholder="Search In Electro Selling"
             />
-            <div className={`w-[20%] absolute top-0 right-0 bg-gray-300 flex items-center justify-center cursor-pointer h-full hover:bg-gray-400 ${searchFilter.length > 0 ? "rounded-tr-xl" : "rounded-r-xl"}`}>
+            <div onClick={searchFilter.length > 0 ? handleSearchClick : undefined} className={`w-[20%] absolute top-0 right-0 bg-gray-300 flex items-center justify-center h-full ${searchFilter.length > 0 ? "rounded-tr-xl cursor-pointer hover:bg-gray-400" : "rounded-r-xl cursor-not-allowed" }`}>
               <p className='text-center text-black text-[18px] font-bold font-jose'>Search</p>
             </div>
           </div>
