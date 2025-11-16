@@ -12,8 +12,9 @@ import ProductDetails from "./components/ProductDetails"
 import Cart from "./pages/Cart"
 import { ToastContainer } from "react-toastify"
 import Process from "./pages/Process"
-import MyAccount from "./pages/MyAccount"
 import WishList from "./pages/WishList"
+import OrderComplete from "./pages/OrderComplete"
+import ForgotPass from "./pages/ForgotPass"
 
 let routing = createBrowserRouter(createRoutesFromElements(
   <>
@@ -23,12 +24,13 @@ let routing = createBrowserRouter(createRoutesFromElements(
       <Route path="/products/:id" element={<ProductDetails/>}></Route>
       <Route path="/cart" element={<Cart/>}></Route>
       <Route path="/process" element={<Process/>}></Route>
+      <Route path="/ordercomplete" element={<OrderComplete/>}></Route>
       <Route path="/blog" element={<Blog />}></Route>
       <Route path="/aboutus" element={<AboutUs />}></Route>
       <Route path="/contact" element={<Contact />}></Route>
-      <Route path="/myaccount" element={<MyAccount/>}></Route>
       <Route path="/wishlist" element={<WishList/>}></Route>
       <Route path="/login" element={<Login />}></Route>
+      <Route path="/forgotpass" element={<ForgotPass />}></Route>
       <Route path="/signup" element={<SignUp />}></Route>
     </Route>
     <Route path="*" element={<NotFound />}></Route>
@@ -40,7 +42,9 @@ function App() {
   return (
     <div>
       <RouterProvider router={routing}></RouterProvider>
-      <ToastContainer />
+      <ToastContainer
+        autoClose={1000}
+      />
     </div>
   )
 }

@@ -4,8 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Container from './Container'
 import { FaCartPlus, FaStar, FaStarHalfAlt } from 'react-icons/fa'
 import { CiHeart, CiStar } from 'react-icons/ci'
-import { useDispatch } from 'react-redux'
-import { addToCart } from './slice/productSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToCart, addToWishlist } from './slice/productSlice'
 import { toast } from 'react-toastify'
 
 const ProductDetails = () => {
@@ -35,11 +35,25 @@ const ProductDetails = () => {
 
   let handleCart = (item)=>{
     dispatch(addToCart({...item, qun: 1}))
-    toast.success("Add to cart success");
+    toast.success("Add to Cart Successfully");
     setTimeout(() => {
       navigate("/cart")
     }, 1000);
   }
+
+  let wishlist = useSelector((state)=>state.product.wishlistItem)
+
+  let handleWish = (item) => {
+  const alreadyExist = wishlist.find((wishIte) => wishIte.id === item.id)
+
+  if (alreadyExist) {
+    toast.warning("Already in Wishlist!")
+  } else {
+    dispatch(addToWishlist(item))
+    toast.success("Added to Wishlist Successfully!")
+  }
+}
+
 
 
   return (
@@ -68,15 +82,15 @@ const ProductDetails = () => {
                 <p className='text-[#262626] font-dms font-normal text-[16px]'>{singleProduct.description}</p>
                 <div className='flex gap-x-2 sm:gap-x-6 pt-4'>
                   <div className='w-40 py-4'>
-                    <div className='flex justify-between items-center cursor-pointer group border-2 border-[#0000001a] px-4 sm:px-6 py-1 rounded-[5px] hover:border-[#f01313]'>
-                      <p className='text-[#151875] text-[14px] sm:text-[16px] font-medium font-josefin group-hover:text-[#f01313]' onClick={()=>handleCart(singleProduct)}>Add To cart</p>
-                      <FaCartPlus className='text-[#151875] group-hover:text-[#f01313]' />
+                    <div className='flex justify-between items-center cursor-pointer group border-2 border-[#0000001a] px-4 sm:px-6 py-1 rounded-[5px] hover:border-violet-500 transition-all duration-300 ease-in-out'>
+                      <p className='text-[#151875] text-[14px] sm:text-[16px] font-medium font-josefin group-hover:text-violet-500 transition-all duration-300 ease-in-out' onClick={()=>handleCart(singleProduct)}>Add To cart</p>
+                      <FaCartPlus className='text-[#151875] group-hover:text-violet-500 transition-all duration-300 ease-in-out' />
                     </div>
                   </div>
-                  <div className='w-50 py-4'>
-                    <div className='flex justify-between items-center cursor-pointer group border-2 border-[#0000001a] px-4 sm:px-6 py-1 rounded-[5px] hover:border-[#f01313]'>
-                      <p className='text-[#151875] text-[14px] sm:text-[16px] font-medium font-josefin group-hover:text-[#f01313]'>Add To Wishlist</p>
-                      <CiHeart className='group-hover:text-[#f01313]' />
+                  <div className='w-50 py-4' onClick={()=>handleWish(singleProduct)}>
+                    <div className='flex justify-between items-center cursor-pointer group border-2 border-[#0000001a] px-4 sm:px-6 py-1 rounded-[5px] hover:border-violet-400 transition-all duration-300 ease-in-out'>
+                      <p className='text-[#151875] text-[14px] sm:text-[16px] font-medium font-josefin group-hover:text-violet-500 transition-all duration-300 ease-in-out'>Add To Wishlist</p>
+                      <CiHeart className='group-hover:text-violet-500 transition-all duration-300 ease-in-out text-[22px]' />
                     </div>
                   </div>
                 </div>

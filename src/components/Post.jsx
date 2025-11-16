@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { FaCartPlus, FaHeart } from 'react-icons/fa'
 import { MdAutorenew } from 'react-icons/md'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { addToCart, addToWishlist } from './slice/productSlice'
+import { toast } from 'react-toastify'
 
 const Post = ({ allPage, cateFilShow, list }) => {
 
   let [catefilterSl, setCateFilterSl] = useState([])
   useEffect(() => {
-    let cateAll = cateFilShow.slice(0, 4)
+    let cateAll = cateFilShow.slice(0, 12)
     setCateFilterSl(cateAll)
   }, [cateFilShow])
 
@@ -18,10 +21,35 @@ const Post = ({ allPage, cateFilShow, list }) => {
   }
 
   let handleShowLess = () => {
-    let cateall = cateFilShow.slice(0, 4)
+    let cateall = cateFilShow.slice(0, 12)
     setCateFilterSl(cateall)
     setShowAll(true)
   }
+
+  let user = useSelector((state)=>state.product.user)
+  let navigate = useNavigate()
+  let dispatch = useDispatch()
+  let handleCart = (item)=>{
+    if(!user){
+      navigate("/login")
+    }else{
+      dispatch(addToCart({...item, qun: 1}))
+      toast.success("Add to Cart Successfully")
+    }
+  }
+
+  let wishlist = useSelector((state)=>state.product.wishlistItem)
+
+  let handleWish = (item) => {
+  const alreadyExist = wishlist.find((wishIte) => wishIte.id === item.id)
+
+  if (alreadyExist) {
+    toast.warning("Already in Wishlist!")
+  } else {
+    dispatch(addToWishlist(item))
+    toast.success("Added to Wishlist Successfully!")
+  }
+}
 
   return (
     <div>
@@ -36,12 +64,12 @@ const Post = ({ allPage, cateFilShow, list }) => {
               <div className='absolute bottom-0 left-2 opacity-0 group-hover:opacity-100 py-2'>
                 <div className='pb-4'>
                   <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#262626]'>
-                    <FaCartPlus />
+                    <FaCartPlus onClick={()=>handleCart(item)} />
                   </div>
                 </div>
                 <div className='pb-4'>
                   <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#262626]'>
-                    <FaHeart />
+                    <FaHeart onClick={()=>handleWish(item)} />
                   </div>
                 </div>
                 <div className='pb-4'>
@@ -70,12 +98,12 @@ const Post = ({ allPage, cateFilShow, list }) => {
               <div className='absolute bottom-0 left-2 opacity-0 group-hover:opacity-100 py-2'>
                 <div className='pb-4'>
                   <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#262626]'>
-                    <FaCartPlus />
+                    <FaCartPlus onClick={()=>handleCart(item)} />
                   </div>
                 </div>
                 <div className='pb-4'>
                   <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#262626]'>
-                    <FaHeart />
+                    <FaHeart onClick={()=>handleWish(item)} />
                   </div>
                 </div>
                 <div className='pb-4'>
@@ -95,9 +123,9 @@ const Post = ({ allPage, cateFilShow, list }) => {
         ))}
       </div>}
 
-      {cateFilShow.length > 4 && showAll ? <h2 className="px-4 py-2 cursor-pointer text-blue-500 text-lg bg-gray-50 border-2 border-[#0000001e] rounded-md hover:bg-blue-100 inline select-none" onClick={handleShowAll} >
+      {cateFilShow.length > 12 && showAll ? <h2 className="px-4 py-2 cursor-pointer text-blue-500 text-lg bg-gray-50 border-2 border-[#0000001e] rounded-md hover:bg-blue-100 inline select-none" onClick={handleShowAll} >
         Show More
-      </h2> : cateFilShow.length > 4 && <h2 className="px-4 py-2 cursor-pointer text-blue-500 text-lg bg-gray-50 border-2 border-[#0000001e] rounded-md hover:bg-blue-100 inline select-none" onClick={handleShowLess}>
+      </h2> : cateFilShow.length > 12 && <h2 className="px-4 py-2 cursor-pointer text-blue-500 text-lg bg-gray-50 border-2 border-[#0000001e] rounded-md hover:bg-blue-100 inline select-none" onClick={handleShowLess}>
         Show Less </h2>}
     </div>
   )

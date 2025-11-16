@@ -66,16 +66,16 @@ const Header = () => {
           </div>
           <div className='flex items-center gap-x-6'>
             <div>
-              <Link to={"/wishlist"} className='flex items-center gap-x-2 group border-l border-l-[#00000045]'>
-                <FiHeart className='text-[17px] text-violet-950 group-hover:text-violet-600 ml-4' />
-                <p className='text-[14px] font-semibold font-jose text-violet-950 group-hover:text-violet-600'>Wishlist</p>
-              </Link>
+              <NavLink to={"/wishlist"} className={({isActive})=> `text-[14px] font-jose font-semibold hover:text-violet-600 flex items-center gap-x-2 group border-l border-l-[#00000045] ${isActive ? "text-red-500" : "text-violet-950" }`}>
+                <FiHeart className='text-[17px] group-hover:text-violet-600 ml-4' />
+                <p className='text-[14px] font-semibold font-jose group-hover:text-violet-600'>Wishlist</p>
+              </NavLink>
             </div>
             <div>
-              <Link to={"/myaccount"} className='flex items-center gap-x-2 group border-l border-l-[#00000045]'>
-                <CiUser className='text-[18px] text-violet-950 group-hover:text-violet-600 ml-2' />
-                <p className='text-[14px] font-semibold font-jose text-violet-950 group-hover:text-violet-600'>Login / SignUp</p>
-              </Link>
+              <NavLink to={"/login"} className={({isActive})=> `text-[14px] font-jose font-semibold hover:text-violet-600 flex items-center gap-x-2 group border-l border-l-[#00000045] ${isActive ? "text-red-500" : "text-violet-950" }`}>
+                <CiUser className='text-[18px] group-hover:text-violet-600 ml-2' />
+                <p className='text-[14px] font-semibold font-jose group-hover:text-violet-600'>Login / SignUp</p>
+              </NavLink>
             </div>
           </div>
           <div className='md:hidden' onClick={()=>setOpenMenu((prev)=>!prev)}>

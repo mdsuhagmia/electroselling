@@ -10,12 +10,16 @@ import { ReactTyped } from 'react-typed'
 const FixedMenu = ({categoryShow, searchRef, handleSearchValue, handkeKeyDown, searchFilter, activeIndex, itemRefs, handleCate, handleSearchShow, handleSearchClick}) => {
 
   let rdata = useSelector((state)=>state.product.cartItem)
+  let totalQuantity = rdata.reduce((total, index)=>total + index.qun, 0)
   let data = useContext(apiData)
   let [categories, setCategories] = useState([])
   
     useEffect(()=>{
       setCategories([...new Set(data.map((item)=>item.category))])
     },[data])
+
+  let [typedText, setTypedText] = useState("");
+
 
   return (
     <div className=''>
@@ -42,6 +46,10 @@ const FixedMenu = ({categoryShow, searchRef, handleSearchValue, handkeKeyDown, s
               backSpeed={70}
               attr="placeholder"
               loop
+              showCursor={false}
+              onStringTyped={(index) => {
+                setTypedText(categories[index]);
+              }}
               className='text-indigo-900'
             >
               <input
@@ -49,7 +57,7 @@ const FixedMenu = ({categoryShow, searchRef, handleSearchValue, handkeKeyDown, s
                 onChange={handleSearchValue}
                 onKeyDown={handkeKeyDown}
                 className={`w-full py-2 pl-6 pr-36 bg-gray-50 outline-2 outline-indigo-900 focus:outline-blue-600 ${searchFilter.length > 0 ? "rounded-t-xl focus:outline-0" : "rounded-xl"}`}
-                placeholder=""
+                placeholder={typedText ? `Search for ${typedText}` : "Search here..."}
               />
             </ReactTyped>
             <div onClick={searchFilter.length > 0 ? handleSearchClick : undefined} onKeyDown={handkeKeyDown} className={`w-[20%] absolute top-0 right-0 bg-gray-300 flex items-center justify-center h-full ${searchFilter.length > 0 ? "rounded-tr-xl cursor-pointer hover:bg-gray-400" : "rounded-r-xl cursor-not-allowed"}`}>
@@ -74,7 +82,7 @@ const FixedMenu = ({categoryShow, searchRef, handleSearchValue, handkeKeyDown, s
             <Link to={"/cart"}>
               <FaCartPlus className='text-4xl text-white hover:text-gray-200' />
               <div className='absolute -top-2 -right-3'>
-                <h4 className={`${rdata.length < 1 ? "text-red-500 bg-gray-100 shadow h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md" : "text-indigo-950 bg-gray-100 h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md"}`}>{rdata.length}</h4>
+                <h4 className={`${totalQuantity < 1 ? "text-red-500 bg-gray-100 shadow h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md" : "text-indigo-950 bg-gray-100 h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md"}`}>{totalQuantity}</h4>
               </div>
             </Link>
           </div>

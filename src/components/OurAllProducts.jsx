@@ -2,8 +2,13 @@ import React, { useContext } from 'react'
 import Container from './Container'
 import Slider from 'react-slick';
 import { apiData } from './ContextApi';
-import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
+import { MdArrowBackIosNew, MdArrowForwardIos, MdAutorenew, MdZoomIn } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { FaCartPlus, FaHeart } from 'react-icons/fa';
+import { CiZoomIn } from 'react-icons/ci';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart, addToWishlist } from './slice/productSlice';
+import { toast } from 'react-toastify';
 
 const OurAllProducts = () => {
 
@@ -44,6 +49,24 @@ const OurAllProducts = () => {
 
     let data = useContext(apiData)
 
+    let dispatch = useDispatch()
+    let handleCartItem = (item)=>{
+      dispatch(addToCart({...item, qun: 1}))
+      toast.success("Add to Cart Successfully");
+    }
+
+    let wishlist = useSelector((state)=>state.product.wishlistItem)
+    let handleWish = (item) => {
+      const alreadyExist = wishlist.find((wishIte) => wishIte.id === item.id)
+    
+      if (alreadyExist) {
+        toast.warning("Already in Wishlist!")
+      } else {
+        dispatch(addToWishlist(item))
+        toast.success("Added to Wishlist Successfully!")
+      }
+    }
+
   return (
     <section className='py-12'>
       <Container>
@@ -53,10 +76,29 @@ const OurAllProducts = () => {
             {data.map((item)=>(
               <div className='px-2'>
                 <div key={item.id} className="bg-white rounded-[8px] shadow-xl mb-6 min-h-[320px]">
-                  <Link to={"/products"}>
-                    <img src={item.image} alt={item.title}
-                      className="w-full h-52 object-contain px-6 py-4 bg-gra-100 bg-gray-300 rounded-t-[5px]" />
-                  </Link>
+                  <div className='relative group'>
+                    <Link to={"/products"} className=''>
+                      <img src={item.image} alt={item.title}
+                        className="w-full h-52 object-contain px-6 py-4 bg-gra-100 bg-gray-300 rounded-t-[5px]" />
+                    </Link>
+                    <div className='absolute top-4 left-2 opacity-0 group-hover:opacity-100 py-2'>
+                      <div className='pb-4' onClick={()=>handleCartItem(item)}>
+                        <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#ee00ff] pl-1'>
+                          <FaCartPlus />
+                        </div>
+                      </div>
+                      <div className='pb-4'>
+                        <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#ee00ff] pl-1'>
+                          <FaHeart onClick={()=>handleWish(item)} />
+                        </div>
+                      </div>
+                      <div className='pb-4'>
+                        <div className='cursor-pointer text-[#767676] text-[16px] font-dms font-medium hover:text-[#ee00ff]'>
+                          <CiZoomIn className='text-3xl' />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div className="p-4 rounded-b-lg text-gray-950">
                     <Link to={"/products"}>
                       <h3 className="text-sm font-semibold line-clamp-2 hover:underline">{item.title}</h3>

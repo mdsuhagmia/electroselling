@@ -18,7 +18,7 @@ const Products = () => {
 
   let data = useContext(apiData)
   
-  let [perPage, setPerPage] = useState(6)
+  let [perPage, setPerPage] = useState(12)
   let [currentPage, setCurrentPage] = useState(1)
 
   let lastPage = perPage * currentPage
@@ -48,6 +48,30 @@ const Products = () => {
 
   let handleChangeValue = (e)=>{
     setPerPage(e.target.value)
+  }
+
+  let handleMatchValue = (e)=>{
+    let matchValue = e.target.value
+    let sorted = [...data]
+
+    if(matchValue === "low-to-high"){
+      sorted.sort((low, high)=> low.price - high.price)
+      setCateFilShow(sorted)
+      setSelectedCategory([])
+      setPriceRange([])
+    }else if (matchValue === "high-to-low"){
+      sorted.sort((low, high)=> high.price - low.price)
+      setCateFilShow(sorted)
+      setSelectedCategory([])
+      setPriceRange([])
+    }else if (matchValue === "a-to-z"){
+      sorted.sort((a, b)=> a.title.localeCompare(b.title))
+      setCateFilShow(sorted)
+      setSelectedCategory([])
+      setPriceRange([])
+    }else if (matchValue === "best-match"){
+      setCateFilShow([])
+    }
   }
 
   let [shopCategory, setShopCategory] = useState([])
@@ -112,7 +136,7 @@ const Products = () => {
                       onChange={() => handleShowCate(item)}
                       className="w-4 h-4 text-indigo-600 focus:ring-0 border-gray-300 rounded cursor-pointer"
                     />
-                    <span className="text-gray-800 font-medium">{item}</span>
+                    <span className="text-gray-800 font-medium capitalize">{item}</span>
                   </label>
                 ))}
               </div>
@@ -176,14 +200,28 @@ const Products = () => {
                     </div>
                   </div>
                 </div>
+                <div className=''>
+                  <form action="sort" className='flex items-center gap-x-2'>
+                    <label htmlFor="sort" className='text-[16px] text-indigo-900 font-medium font-jose'>
+                      Sort By:
+                    </label>
+                    <select onChange={handleMatchValue} name="" id="" className='px-6 border-2 py-1 border-gray-300 outline-0 rounded-[5px] text-[16px] text-indigo-900 font-medium font-jose'>
+                      <option value="best-match">Best Match</option>
+                      <option value="low-to-high">Low To High</option>
+                      <option value="high-to-low">High To Low</option>
+                      <option value="a-to-z">A - Z</option>
+                    </select>
+                  </form>
+                </div>
                 <div className='flex items-center gap-x-2'>
                   <label htmlFor="" className='text-[16px] text-indigo-900 font-medium font-jose'>
                     Show:
                   </label>
                   <select onChange={handleChangeValue} name="" id="" className='px-6 border-2 py-1 border-gray-300 outline-0 rounded-[5px] text-[16px] text-indigo-900 font-medium font-jose'>
-                    <option value="6">6</option>
-                    <option value="9">9</option>
                     <option value="12">12</option>
+                    <option value="15">15</option>
+                    <option value="18">18</option>
+                    <option value="21">21</option>
                   </select>
                 </div>
               </div>

@@ -75,3 +75,16 @@
   border-radius: 50%;
   background-color: rgb(255, 0, 0);
 }
+
+
+.custom-toast {
+    width: 500px;
+    max-width: 90vw;
+
+    padding: 20px 15px;
+    min-height: 80px;
+}
+.custom-toast-body {
+    font-size: 30px !important;
+    font-weight: 700 !important;
+}

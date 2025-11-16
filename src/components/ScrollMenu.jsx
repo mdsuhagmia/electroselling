@@ -10,6 +10,8 @@ import { ReactTyped } from 'react-typed'
 const ScrolldMenu = ({searchRef, handleSearchValue, handkeKeyDown, searchFilter, activeIndex, itemRefs, handleSearchShow, handleLeftMenu, handleSearchClick}) => {
 
   let rdata = useSelector((state)=>state.product.cartItem)
+  let totalQuantity = rdata.reduce((total, index)=>total + index.qun, 0)
+  let wdata = useSelector((state)=>state.product.wishlistItem)
 
   let data = useContext(apiData)
   let [categories, setCategories] = useState([])
@@ -68,7 +70,7 @@ const ScrolldMenu = ({searchRef, handleSearchValue, handkeKeyDown, searchFilter,
               <Link to={"/wishlist"}>
                 <FaRegHeart className='text-3xl text-white hover:text-gray-300' />
                 <div className='absolute -top-2 -right-3'>
-                  <h4 className={`${rdata.length < 1 ? "text-red-500 bg-gray-100 shadow h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md" : "text-indigo-950 bg-gray-100 h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md"}`}>{rdata.length}</h4>
+                  <h4 className={`${wdata.length < 1 ? "text-red-500 bg-gray-100 shadow h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md" : "text-indigo-950 bg-gray-100 h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md"}`}>{wdata.length}</h4>
                 </div>
               </Link>
             </div>
@@ -78,7 +80,7 @@ const ScrolldMenu = ({searchRef, handleSearchValue, handkeKeyDown, searchFilter,
               <Link to={"/cart"}>
                 <FaCartPlus className='text-3xl text-white hover:text-gray-300' />
                 <div className='absolute -top-2 -right-3'>
-                  <h4 className={`${rdata.length < 1 ? "text-red-500 bg-gray-100 shadow h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md" : "text-indigo-950 bg-gray-100 h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md"}`}>{rdata.length}</h4>
+                  <h4 className={`${totalQuantity < 1 ? "text-red-500 bg-gray-100 shadow h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md" : "text-indigo-950 bg-gray-100 h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-md"}`}>{totalQuantity}</h4>
                 </div>
               </Link>
             </div>

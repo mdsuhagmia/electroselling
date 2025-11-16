@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const Blog = () => {
   return (
-    <div>Blog</div>
-  )
-}
+    <div className="bg-gray-100 py-12">
+      <h2>Blog</h2>
+    </div>
+  );
+};
 
-export default Blog
+export default Blog;
