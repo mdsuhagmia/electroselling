@@ -29,11 +29,11 @@ const Header = () => {
         <div className='flex items-center justify-between'>
           <div>
             <Link to={"/"} target='_top'>
-              <img src={logofull} alt="" className='h-12' />
+              <img src={logofull} alt="" className='h-8 lg:h-12' />
             </Link>
           </div>
           <div ref={menuRef}>
-            <ul className={`md:flex items-center gap-x-6 md:static transition-all ease-in-out duration-700 ${openMenu == true ? "absolute top-0 left-0 bg-white shadow border-b-2 border-[#0000002d] py-4 w-full z-[9999] pl-4" : "absolute top-0 -left-200"}`}>
+            <ul className={`md:flex items-center gap-x-4 lg:gap-x-6 md:static transition-all ease-in-out duration-700 ${openMenu == true ? "absolute top-0 left-0 bg-white shadow border-b-2 border-[#0000002d] py-4 w-full z-[9999] pl-4" : "absolute top-0 -left-200"}`}>
             <div className='md:hidden flex justify-end pr-4' onClick={()=>setOpenMenu((prev)=>!prev)}>
               {openMenu == true ? <GrClose className='text-2xl cursor-pointer' /> : "" }
             </div>
@@ -64,7 +64,7 @@ const Header = () => {
               </li>
             </ul>
           </div>
-          <div className='flex items-center gap-x-6'>
+          <div className='flex items-center gap-x-3 lg:gap-x-6'>
             <div>
               <NavLink to={"/wishlist"} className={({isActive})=> `text-[14px] font-jose font-semibold hover:text-violet-600 flex items-center gap-x-2 group border-l border-l-[#00000045] ${isActive ? "text-red-500" : "text-violet-950" }`}>
                 <FiHeart className='text-[17px] group-hover:text-violet-600 ml-4' />

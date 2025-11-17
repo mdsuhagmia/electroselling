@@ -2,8 +2,9 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import { FaBlog, FaShoppingCart } from "react-icons/fa";
+import { FaBlog, FaRegHeart, FaShoppingCart } from "react-icons/fa";
 import { MdContactMail } from "react-icons/md";
+import { CiUser } from "react-icons/ci";
 
 const MobileFixMenu = () => {
   return (
@@ -11,7 +12,7 @@ const MobileFixMenu = () => {
       <div className="flex justify-between px-4 py-2">
         <div>
           <NavLink
-            to="/"
+            to="/" target="_top"
             className="flex flex-col items-center text-gray-600 hover:text-indigo-600 duration-200"
           >
             <AiFillHome className="text-2xl" />
@@ -20,20 +21,29 @@ const MobileFixMenu = () => {
         </div>
         <div>
           <NavLink
-            to="/about"
-            className="flex flex-col items-center text-gray-600 hover:text-indigo-600 duration-200"
-          >
-            <BsFillInfoCircleFill className="text-2xl" />
-            <span className="text-xs">About</span>
-          </NavLink>
-        </div>
-        <div>
-          <NavLink
-            to="/products"
+            to="/products" target="_top"
             className="flex flex-col items-center text-gray-600 hover:text-indigo-600 duration-200"
           >
             <FaShoppingCart className="text-2xl" />
             <span className="text-xs">Shop</span>
+          </NavLink>
+        </div>
+        <div>
+          <NavLink
+            to="/wishlist" target="_top"
+            className="flex flex-col items-center text-gray-600 hover:text-indigo-600 duration-200"
+          >
+            <FaRegHeart className='text-2xl' />
+            <span className="text-xs">Wishlist</span>
+          </NavLink>
+        </div>
+        <div>
+          <NavLink
+            to="/login" target="_top"
+            className="flex flex-col items-center text-gray-600 hover:text-indigo-600 duration-200"
+          >
+            <CiUser className='text-2xl' />
+            <span className="text-xs">Sign in</span>
           </NavLink>
         </div>
       </div>

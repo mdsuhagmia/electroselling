@@ -37,10 +37,10 @@ const RootLayout = () => {
       <Footer />
       <MobileFixMenu/>
       {scrolled && (
-        <div className='fixed right-1 bottom-4'>
-          <FaPhone className='text-[34px] bg-blue-600 text-white p-2 rounded-full hover:scale-110 hover:bg-blue-500 cursor-pointer mb-2' />
-          <FaWhatsapp className='text-[34px] bg-[#25D366] text-white p-2 rounded-full hover:scale-110 hover:bg-[#25d365d5] cursor-pointer mb-2' />
-          <MdOutlineDoubleArrow onClick={handleScrollTop} className='-rotate-90 text-[34px] bg-blue-600 text-white p-2 rounded-full hover:scale-110 hover:bg-blue-500 cursor-pointer' />
+        <div className='fixed right-1 bottom-20 md:bottom-4'>
+          <FaPhone className='text-[28px] md:text-[34px] bg-blue-600 text-white p-2 rounded-full hover:scale-110 hover:bg-blue-500 cursor-pointer mb-2' />
+          <FaWhatsapp className='text-[28px] md:text-[34px] bg-[#25D366] text-white p-2 rounded-full hover:scale-110 hover:bg-[#25d365d5] cursor-pointer mb-2' />
+          <MdOutlineDoubleArrow onClick={handleScrollTop} className='-rotate-90 text-[28px] md:text-[34px] bg-blue-600 text-white p-2 rounded-full hover:scale-110 hover:bg-blue-500 cursor-pointer' />
         </div>
       )}
     </div>

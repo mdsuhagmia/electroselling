@@ -151,7 +151,7 @@ const MobileMenu = () => {
             <div className='mr-2'>
               <div className='relative'>
                 <Link to={"/cart"}>
-                  <FaCartPlus className='text-2xl sm:w-3xl text-white hover:text-gray-300' />
+                  <FaCartPlus className='text-2xl sm:text-3xl text-white hover:text-gray-300' />
                   <div className='absolute -top-2 -right-3'>
                     <h4 className={`${totalQuantity < 1 ? "text-red-500 bg-gray-100 shadow h-5 w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-sm sm:text-md" : "text-indigo-950 bg-gray-100 h-4 sm:h-5 w-4 sm:w-5 flex leading-5 justify-center rounded-full font-lat font-bold text-sm sm:text-md"}`}>{totalQuantity}</h4>
                   </div>
@@ -210,13 +210,13 @@ const MobileMenu = () => {
             </ul>
             <div className='py-8'>
               <h2 className='text-red-800 font-bold font-jose text-[25px] pb-4'>Contact me</h2>
-              <div className='pb-2 inline-block'>
+              <div className='pb-2'>
                 <a href="tel:+8801762556958" className='flex items-center gap-x-2 hover:underline'>
                   <FaPhone className='text-emerald-500 text-[18px]' />
                   <p className='text-indigo-950 text-[16px] font-semibold font-lat'>+8801762556958</p>
                 </a>
               </div>
-              <div className='pb-2 inline-block'>
+              <div className='pb-2'>
                 <a href="mailto:electroselling25@gmail.com" className='flex items-center gap-x-2 hover:underline'>
                   <MdEmail className='text-[#007AFF] text-[20px]' />
                   <p className='text-indigo-950 text-[16px] font-semibold font-lat'>electroselling25@gmail.com</p>

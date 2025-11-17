@@ -45,7 +45,7 @@ const ShopTopCategory = () => {
     <section className='py-12 bg-gray-100'>
       <Container>
         <h2 className='text-4xl text-indigo-950 font-bold font-jose pb-6 text-center'>Shop By Top Category</h2>
-        <div className='grid grid-cols-2 gap-x-6'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-x-6'>
           <div className='bg-indigo-400 py-6 px-6 rounded-[5px]'>
             <h2 className='text-2xl text-white font-bold font-jose pb-6 text-center'>Shop Electronics</h2>
             <div className='grid grid-cols-2 gap-x-2'>

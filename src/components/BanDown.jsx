@@ -19,7 +19,7 @@ const BanDown = () => {
         <div>
           <div className="py-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl text-indigo-950 text-center pb-6 font-bold font-jose">Best Sellers in Men's Clothing</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {cateShow.map((item) => (
                 <div key={item.id} className="bg-blue-500 rounded-[8px] shadow ">
                   <Link to={`/products/${item.id}`}>

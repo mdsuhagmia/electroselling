@@ -159,7 +159,7 @@ const Menu = () => {
           }
         </div>
         <div className={`absolute top-0 right-0 bg-[#000000a0] capitalize z-[99999] w-full h-screen overflow-y-scroll transition-opacity duration-500 ${leftMenu ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
-          <div ref={leftMenuRef} className={`bg-white shadow pb-2 capitalize z-[99999] w-1/3 h-screen pl-4 md:pl-6 lg:pl-8 xl:pl-10 2xl:pl-12 pr-4 overflow-y-scroll transition-transform duration-700 ease-in-out transform ${leftMenu ? "translate-x-0" : "-translate-x-full"}`}>
+          <div ref={leftMenuRef} className={`bg-white shadow pb-2 capitalize z-[99999] w-2/4 lg:w-1/3 h-screen pl-4 md:pl-6 lg:pl-8 xl:pl-10 2xl:pl-12 pr-4 overflow-y-scroll transition-transform duration-700 ease-in-out transform ${leftMenu ? "translate-x-0" : "-translate-x-full"}`}>
             <div className='flex items-center justify-between pt-6'>
               <img src={logo} alt="logo" className='w-26 cursor-pointer' />
               <div onClick={() => setLeftMenu(false)}>
