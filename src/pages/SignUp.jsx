@@ -103,7 +103,7 @@ const SignUp = () => {
                   </span>
                 </div>
               </div>
-              <div>
+              <div className="pb-6">
                 <label className="text-white text-[20px] font-bold font-jose">
                   Confirm Password
                 </label>
@@ -128,9 +128,9 @@ const SignUp = () => {
                 Create Account
               </button>
               <p className="text-[20px] font-bold font-jose text-pink-400 pt-8 text-center">
-                Already have an account?
+                Already have an account? {""} 
                 <Link to="/login" className="hover:underline text-emerald-400">
-                  Login
+                   Login
                 </Link>
               </p>
             </div>

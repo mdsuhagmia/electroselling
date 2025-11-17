@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Container from './Container'
 import Slider from 'react-slick';
 import { apiData } from './ContextApi';
@@ -9,6 +9,7 @@ import { CiZoomIn } from 'react-icons/ci';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, addToWishlist } from './slice/productSlice';
 import { toast } from 'react-toastify';
+import { RiCloseLargeFill } from 'react-icons/ri';
 
 const OurAllProducts = () => {
 
@@ -67,6 +68,22 @@ const OurAllProducts = () => {
       }
     }
 
+    let [zoomIn, setZoomIn] = useState(false)
+    let handleZoomIn = (item)=>{
+      setZoomIn(item.image)
+    }
+
+    let zoomRef = useRef()
+    useEffect(()=>{
+      let handleClickOutsite = (e)=>{
+        if(zoomIn && !zoomRef.current.contains(e.target)){
+          setZoomIn(false)
+        }
+      }
+      document.addEventListener("mousedown", handleClickOutsite)
+      return ()=> document.removeEventListener("mousedown", handleClickOutsite)
+    },[zoomIn])
+
   return (
     <section className='py-12'>
       <Container>
@@ -76,12 +93,12 @@ const OurAllProducts = () => {
             {data.map((item)=>(
               <div className='px-2'>
                 <div key={item.id} className="bg-white rounded-[8px] shadow-xl mb-6 min-h-[320px]">
-                  <div className='relative group'>
+                  <div className='relative group overflow-hidden'>
                     <Link to={"/products"} className=''>
                       <img src={item.image} alt={item.title}
                         className="w-full h-52 object-contain px-6 py-4 bg-gra-100 bg-gray-300 rounded-t-[5px]" />
                     </Link>
-                    <div className='absolute top-4 left-2 opacity-0 group-hover:opacity-100 py-2'>
+                    <div className='absolute top-4 -left-14 group-hover:left-2 opacity-0 group-hover:opacity-100 py-2 transition-all duration-500 ease-in-out'>
                       <div className='pb-4' onClick={()=>handleCartItem(item)}>
                         <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#ee00ff] pl-1'>
                           <FaCartPlus />
@@ -93,7 +110,7 @@ const OurAllProducts = () => {
                         </div>
                       </div>
                       <div className='pb-4'>
-                        <div className='cursor-pointer text-[#767676] text-[16px] font-dms font-medium hover:text-[#ee00ff]'>
+                        <div onClick={()=>handleZoomIn(item)} className='cursor-pointer text-[#767676] text-[16px] font-dms font-medium hover:text-[#ee00ff]'>
                           <CiZoomIn className='text-3xl' />
                         </div>
                       </div>
@@ -110,6 +127,19 @@ const OurAllProducts = () => {
             ))}
           </Slider>
         </div>
+        {zoomIn && (
+          <div ref={zoomRef} className='fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[99999] bg-gray-100 px-20 rounded-2xl shadow-2xl border border-[#0000004b]'>
+            <div className='relative'>
+              <img src={zoomIn} className='max-w-7xl max-h-[calc(100vh-60px)] py-6' alt="" />
+              <div className='absolute top-4 -right-16'>
+                <RiCloseLargeFill
+                  onClick={() => setZoomIn(false)}
+                  className='text-5xl bg-red-500 text-white p-2 rounded-full cursor-pointer hover:bg-red-700 duration-300 font-extrabold'
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </Container>
     </section>
   )

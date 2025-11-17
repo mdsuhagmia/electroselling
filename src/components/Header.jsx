@@ -24,7 +24,7 @@ const Header = () => {
   },[openMenu])
 
   return (
-    <header className='bg-gray-100 py-2 relative'>
+    <header className='bg-gray-100 py-2 relative hidden md:block'>
       <Container>
         <div className='flex items-center justify-between'>
           <div>

@@ -1,20 +1,58 @@
-import React from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Container from '../components/Container'
-import { decrement, increment, productRemove, productRemoveAll } from '../components/slice/productSlice'
+import { addToCart, addToWishlist, decrement, increment, productRemove, productRemoveAll } from '../components/slice/productSlice'
 import { BsFillCartXFill } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
-import { FaCartPlus } from 'react-icons/fa'
+import { FaCartPlus, FaHeart } from 'react-icons/fa'
+import { CiZoomIn } from 'react-icons/ci'
+import { RiCloseLargeFill } from 'react-icons/ri'
+import { apiData } from '../components/ContextApi'
+import { toast } from 'react-toastify'
 
 const Cart = () => {
   const rdata = useSelector((state) => state.product.cartItem)
   const dispatch = useDispatch()
 
-  let {totalPrice, totalQuantity} = rdata.reduce((item, index)=>{
+  let { totalPrice, totalQuantity } = rdata.reduce((item, index) => {
     item.totalPrice += index.price * index.qun
     item.totalQuantity += index.qun
-    return item ;
-  },{totalPrice: 0, totalQuantity: 0})
+    return item;
+  }, { totalPrice: 0, totalQuantity: 0 })
+
+  let data = useContext(apiData)
+  let [suggested, setSuggested] = useState([])
+  useEffect(()=>{
+    let randomProduct = [...data].sort(()=> 0.5 - Math.random())
+    let selected = randomProduct.slice(0, 8)
+    setSuggested(selected)
+  },[data])
+
+  let handleCartItem = (item) => {
+    dispatch(addToCart({ ...item, qun: 1 }))
+    toast.success("Add to Cart Successfully");
+  }
+
+  let handleWish = (item) => {
+    dispatch(addToWishlist(item))
+    toast.success("Add to Wishlist Successfully");
+  }
+
+  let [zoomIn, setZoomIn] = useState(false)
+  let handleZoomIn = (item) => {
+    setZoomIn(item.image)
+  }
+
+  let zoomRef = useRef()
+  useEffect(() => {
+    let handleClickOutsite = (e) => {
+      if (zoomIn && !zoomRef.current.contains(e.target)) {
+        setZoomIn(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutsite)
+    return () => document.removeEventListener("mousedown", handleClickOutsite)
+  }, [zoomIn])
 
   return (
     <section className="pb-16">
@@ -120,19 +158,70 @@ const Cart = () => {
               </table>
             </div>
           ) : (
-            <div className="text-center py-12">
-              <div className="flex items-center justify-center gap-2 pb-6">
-                <h2 className="text-4xl font-bold font-jose text-indigo-950">Your cart is Empty</h2>
-                <BsFillCartXFill className="text-xl text-indigo-950" />
+            <div className="py-12">
+              <div className='text-center'>
+                <div className="flex items-center justify-center gap-2 pb-6">
+                  <h2 className="text-4xl font-bold font-jose text-indigo-950">Your cart is Empty</h2>
+                  <BsFillCartXFill className="text-xl text-indigo-950" />
+                </div>
+                <Link
+                  to="/products"
+                  className="bg-indigo-950 text-white px-8 py-3 rounded font-semibold hover:bg-indigo-800 text-md transition">
+                  Continue Shopping
+                </Link>
               </div>
-              <Link
-                to="/products"
-                className="bg-indigo-950 text-white px-8 py-3 rounded font-semibold hover:bg-indigo-800 text-md transition">
-                Continue Shopping
-              </Link>
+              <div>
+                <h2 className='text-green-500 text-[25px] font-semibold font-jose pb-2 pt-8'>Just for you</h2>
+              </div>
+              <div className='grid grid-cols-4 gap-x-4'>
+                {suggested.map((item) => (
+                  <div className='mb-4 shadow'>
+                    <div className='relative group overflow-x-hidden'>
+                      <Link to={`/products/${item.id}`}>
+                        <img src={item.image} alt={item.title} className=' bg-gray-300 py-6 object-contain w-full h-60 px-14' />
+                      </Link>
+                      <div className='absolute top-4 -left-14 group-hover:left-2 opacity-0 group-hover:opacity-100 py-2 transition-all duration-500 ease-in-out'>
+                        <div className='pb-4' onClick={() => handleCartItem(item)}>
+                          <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#ee00ff] pl-1'>
+                            <FaCartPlus />
+                          </div>
+                        </div>
+                        <div className='pb-4'>
+                          <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#ee00ff] pl-1'>
+                            <FaHeart onClick={() => handleWish(item)} />
+                          </div>
+                        </div>
+                        <div className='pb-4'>
+                          <div onClick={() => handleZoomIn(item)} className='cursor-pointer text-[#767676] text-[16px] font-dms font-medium hover:text-[#ee00ff]'>
+                            <CiZoomIn className='text-3xl' />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='py-4 px-3'>
+                      <Link to={`/products/${item.id}`}>
+                        <h2 className='text-[14px] font-bold font-jose text-violet-950 hover:underline'>{item.title}</h2>
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
+        {zoomIn && (
+          <div ref={zoomRef} className='fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[99999] bg-gray-100 px-20 rounded-2xl shadow-2xl border border-[#0000004b]'>
+            <div className='relative'>
+              <img src={zoomIn} className='max-w-7xl max-h-[calc(100vh-60px)] py-6' alt="" />
+              <div className='absolute top-4 -right-16'>
+                <RiCloseLargeFill
+                  onClick={() => setZoomIn(false)}
+                  className='text-5xl bg-red-500 text-white p-2 rounded-full cursor-pointer hover:bg-red-700 duration-300 font-extrabold'
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </Container>
     </section>
   )

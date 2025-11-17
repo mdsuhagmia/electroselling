@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom'
 import Footer from '../Footer'
 import { MdOutlineDoubleArrow } from 'react-icons/md'
 import { FaPhone, FaWhatsapp } from 'react-icons/fa'
+import MobileFixMenu from '../MobileFixMenu'
 
 const RootLayout = () => {
   
@@ -32,6 +33,7 @@ const RootLayout = () => {
       <Menu />
       <Outlet />
       <Footer />
+      <MobileFixMenu/>
       {scrolled && (
         <div className='fixed right-1 bottom-4'>
           <FaPhone className='text-[34px] bg-blue-600 text-white p-2 rounded-full hover:scale-110 hover:bg-blue-500 cursor-pointer mb-2' />

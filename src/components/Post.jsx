@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FaCartPlus, FaHeart } from 'react-icons/fa'
 import { MdAutorenew } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { addToCart, addToWishlist } from './slice/productSlice'
 import { toast } from 'react-toastify'
+import { CiZoomIn } from 'react-icons/ci'
+import { RiCloseLargeFill } from 'react-icons/ri'
 
 const Post = ({ allPage, cateFilShow, list }) => {
 
@@ -51,6 +53,22 @@ const Post = ({ allPage, cateFilShow, list }) => {
   }
 }
 
+  let [zoomIn, setZoomIn] = useState(false)
+  let handleZoomIn = (item) => {
+    setZoomIn(item.image)
+  }
+
+  let zoomRef = useRef()
+  useEffect(() => {
+    let handleClickOutsite = (e) => {
+      if (zoomIn && !zoomRef.current.contains(e.target)) {
+        setZoomIn(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutsite)
+    return () => document.removeEventListener("mousedown", handleClickOutsite)
+  }, [zoomIn])
+
   return (
     <div>
       {catefilterSl.length > 0 ? <div className={`${list == "active" ? "grid grid-cols-1" : "grid grid-cols-3 gap-x-3"}`}>
@@ -73,8 +91,8 @@ const Post = ({ allPage, cateFilShow, list }) => {
                   </div>
                 </div>
                 <div className='pb-4'>
-                  <div className='cursor-pointer text-[#767676] text-[16px] font-dms font-medium hover:text-[#262626]'>
-                    <MdAutorenew className='text-2xl' />
+                  <div onClick={() => handleZoomIn(item)} className='cursor-pointer text-[#767676] text-[16px] font-dms font-medium hover:text-[#ee00ff]'>
+                    <CiZoomIn className='text-3xl' />
                   </div>
                 </div>
               </div>
@@ -90,25 +108,25 @@ const Post = ({ allPage, cateFilShow, list }) => {
       </div> : <div className={`${list == "active" ? "grid grid-cols-1" : "grid grid-cols-3 gap-x-3"}`}>
         {allPage.map((item) => (
           <div key={item.id} className="bg-white rounded-[8px] shadow-xl mb-6">
-            <div className='relative group'>
+            <div className='relative group overflow-hidden'>
               <Link to={`/products/${item.id}`}>
                 <img src={item.image} alt={item.title}
                   className="w-full h-52 object-contain px-8 py-4 bg-gra-100 bg-gray-300 rounded-t-[5px]" />
               </Link>
-              <div className='absolute bottom-0 left-2 opacity-0 group-hover:opacity-100 py-2'>
+              <div className='absolute bottom-0 -left-14 group-hover:left-2 opacity-0 group-hover:opacity-100 py-2 transition-all duration-500 ease-in-out'>
                 <div className='pb-4'>
-                  <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#262626]'>
+                  <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#262626] pl-1'>
                     <FaCartPlus onClick={()=>handleCart(item)} />
                   </div>
                 </div>
                 <div className='pb-4'>
-                  <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#262626]'>
+                  <div className='cursor-pointer text-[#767676] text-[20px] font-dms font-medium hover:text-[#262626] pl-1'>
                     <FaHeart onClick={()=>handleWish(item)} />
                   </div>
                 </div>
                 <div className='pb-4'>
-                  <div className='cursor-pointer text-[#767676] text-[16px] font-dms font-medium hover:text-[#262626]'>
-                    <MdAutorenew className='text-2xl' />
+                  <div onClick={() => handleZoomIn(item)} className='cursor-pointer text-[#767676] text-[16px] font-dms font-medium hover:text-[#ee00ff]'>
+                    <CiZoomIn className='text-3xl' />
                   </div>
                 </div>
               </div>
@@ -127,6 +145,20 @@ const Post = ({ allPage, cateFilShow, list }) => {
         Show More
       </h2> : cateFilShow.length > 12 && <h2 className="px-4 py-2 cursor-pointer text-blue-500 text-lg bg-gray-50 border-2 border-[#0000001e] rounded-md hover:bg-blue-100 inline select-none" onClick={handleShowLess}>
         Show Less </h2>}
+
+      {zoomIn && (
+        <div ref={zoomRef} className='fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[99999] bg-gray-100 px-20 rounded-2xl shadow-2xl border border-[#0000004b]'>
+          <div className='relative'>
+            <img src={zoomIn} className='max-w-7xl max-h-[calc(100vh-60px)] py-6' alt="" />
+            <div className='absolute top-4 -right-16'>
+              <RiCloseLargeFill
+                onClick={() => setZoomIn(false)}
+                className='text-5xl bg-red-500 text-white p-2 rounded-full cursor-pointer hover:bg-red-700 duration-300 font-extrabold'
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
