@@ -75,7 +75,7 @@ const WomensClothing = () => {
     <section className='py-12'>
       <Container>
         <div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl text-indigo-950 text-center pb-6 font-bold font-jose">
+          <h2 className="text-lg sm:text-3xl md:text-4xl text-indigo-950 text-center pb-6 font-bold font-jose">
             Best Sellers in Women's Clothing
           </h2>
           <Slider {...settings} className='wo_clothing'>

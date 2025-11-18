@@ -21,6 +21,22 @@ const ProductDetails = () => {
     getProductId()
   },[productId])
 
+  // let [relatedProducts, setRelatedProducts] = useState([])
+  // let categoryCus = singleProduct.category
+  // let getRelatedProducts = ()=>{
+  //   if(categoryCus){
+  //     axios.get(`https://fakestoreapi.com/products/category/${singleProduct.category}`).then((res)=>{
+  //       let filtered = res.data.filter(item => item.id !== singleProduct.id);
+  //       setRelatedProducts(filtered);
+  //     })
+  //   }
+  // }
+  // useEffect(()=>{
+  //   getRelatedProducts()
+  // },[relatedProducts])
+
+  // console.log(relatedProducts)
+
   let clientRatting = Array.from({length:5}, (_, index)=>{
     let number = index + 0.5
     return (
@@ -54,48 +70,51 @@ const ProductDetails = () => {
   }
 }
 
-
-
   return (
-    <section className='py-16'>
+    <section className='py-16 bg-gray-50'>
       <Container>
-        <div className='grid grid-cols-2 items-center gap-x-8'>
-          <div className=''>
-            <img src={singleProduct.image} alt="" className=' w-full mx-auto bg-gray-300 py-8 px-16 rounded-2xl' />
-          </div>
-          <div className=''>
-            <h2 className='text-[36px] text-indigo-900 font-bold font-jose pb-2'>{singleProduct.title}</h2>
-            <div className='pb-8'>
-              <div className='flex gap-4 items-center pb-4'>
-                <div className='flex'>
-                  {clientRatting}
+        <div>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-x-8'>
+            <div className=''>
+              <img src={singleProduct.image} alt="" className=' w-full mx-auto bg-gray-300 py-8 px-16 rounded-2xl' />
+            </div>
+            <div className=''>
+              <h2 className='text-[20px] sm:text-[36px] md:text-[30px] lg:text-[36px] pt-4 md:pt-0 text-indigo-900 font-bold font-jose pb-2'>{singleProduct.title}</h2>
+              <div className='pb-8'>
+                <div className='flex gap-4 items-center pb-4'>
+                  <div className='flex'>
+                    {clientRatting}
+                  </div>
+                  <div className=''>
+                    <p className='text-[#767676] text-[16px]'>{singleProduct?.rating?.count} Review</p>
+                  </div>
                 </div>
                 <div className=''>
-                  <p className='text-[#767676] text-[16px]'>{singleProduct?.rating?.count} Review</p>
-                </div>
-              </div>
-              <div className=''>
-                <div className='flex gap-x-6 items-center pb-4'>
-                  <p className='text-[#262626] font-jose font-bold text-[18px]'>${discount.toFixed(2)}</p>
-                  <p className='text-[#d32530] font-bold font-jose line-through'>${singleProduct.price}</p>
-                </div>
-                <p className='text-[#262626] font-dms font-normal text-[16px]'>{singleProduct.description}</p>
-                <div className='flex gap-x-2 sm:gap-x-6 pt-4'>
-                  <div className='w-40 py-4'>
-                    <div className='flex justify-between items-center cursor-pointer group border-2 border-[#0000001a] px-4 sm:px-6 py-1 rounded-[5px] hover:border-violet-500 transition-all duration-300 ease-in-out'>
-                      <p className='text-[#151875] text-[14px] sm:text-[16px] font-medium font-josefin group-hover:text-violet-500 transition-all duration-300 ease-in-out' onClick={()=>handleCart(singleProduct)}>Add To cart</p>
-                      <FaCartPlus className='text-[#151875] group-hover:text-violet-500 transition-all duration-300 ease-in-out' />
-                    </div>
+                  <div className='flex gap-x-6 items-center pb-4'>
+                    <p className='text-[#262626] font-jose font-bold text-[18px]'>${discount.toFixed(2)}</p>
+                    <p className='text-[#d32530] font-bold font-jose line-through'>${singleProduct.price}</p>
                   </div>
-                  <div className='w-50 py-4' onClick={()=>handleWish(singleProduct)}>
-                    <div className='flex justify-between items-center cursor-pointer group border-2 border-[#0000001a] px-4 sm:px-6 py-1 rounded-[5px] hover:border-violet-400 transition-all duration-300 ease-in-out'>
-                      <p className='text-[#151875] text-[14px] sm:text-[16px] font-medium font-josefin group-hover:text-violet-500 transition-all duration-300 ease-in-out'>Add To Wishlist</p>
-                      <CiHeart className='group-hover:text-violet-500 transition-all duration-300 ease-in-out text-[22px]' />
+                  <p className='text-[#262626] font-dms font-normal text-[16px]'>{singleProduct.description}</p>
+                  <div className='flex gap-x-2 sm:gap-x-6 md:gap-x-2 lg:gap-x-6 pt-6'>
+                    <div className=''>
+                      <div className='flex justify-between items-center cursor-pointer gap-x-4 transition-all duration-300 ease-in-out bg-orange-600 hover:bg-orange-500 px-4 sm:px-6 md:px-4 lg:px-6 py-2 rounded-[5px] text-white'>
+                        <p className='text-[14px] sm:text-[16px] font-medium font-josefin' onClick={() => handleCart(singleProduct)}>Add To cart</p>
+                        <FaCartPlus className='' />
+                      </div>
+                    </div>
+                    <div className='' onClick={() => handleWish(singleProduct)}>
+                      <div className='flex justify-between items-center cursor-pointer gap-x-4 transition-all duration-300 ease-in-out bg-blue-700 hover:bg-blue-800 px-4 sm:px-6 md:px-4 lg:px-6 py-2 rounded-[5px] text-white'>
+                        <p className='text-[14px] sm:text-[16px] font-medium font-josefin'>Add To Wishlist</p>
+                        <CiHeart className='text-[22px]' />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+          <div>
+            <h2 className='text-xl font-bold font-jose text-orange-700 pt-12'>Related proudcts</h2>
           </div>
         </div>
       </Container>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { apiData } from '../components/ContextApi'
 import Container from '../components/Container'
 import Post from '../components/Post'
@@ -6,6 +6,9 @@ import Pagination from '../components/Pagination'
 import { BsGridFill } from 'react-icons/bs'
 import { FaListUl } from 'react-icons/fa'
 import { useLocation } from 'react-router-dom'
+import { IoIosCloseCircle } from 'react-icons/io'
+import logo from '../assets/logofull.png'
+import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2'
 
 const Products = () => {
   let location = useLocation()
@@ -117,12 +120,30 @@ const Products = () => {
     }
   };
 
+  // movile responsive logic
+  let mcateRef = useRef()
+  let mpriceRef = useRef()
+  let [mcateOpen, setMcateOpen] = useState(false)
+  let [mpriceOpen, setMpriceOpen] = useState(false)
+    useEffect(()=>{
+      let handleClickOutsite = (e)=>{
+        if(mcateOpen && !mcateRef.current.contains(e.target)){
+          setMcateOpen(false)
+        }
+        if(mpriceOpen && !mpriceRef.current.contains(e.target)){
+          setMpriceOpen(false)
+        }
+      }
+      document.addEventListener("mousedown", handleClickOutsite)
+      return ()=> document.removeEventListener("mousedown", handleClickOutsite)
+    },[mcateOpen, mpriceOpen])
+
   return (
     <>
-      <section className='py-12'>
+      <section className='pt-4 pb-12 lg:py-12'>
         <Container>
-          <div className='flex justify-between'>
-            <div className='w-[20%]'>
+          <div className='lg:flex justify-between'>
+            <div className='w-[20%] hidden lg:block'>
               <h2 className='text-[22px] text-indigo-900 font-semibold font-jose pb-4'>Shop By Category</h2>
               <div className='pb-8'>
                 {shopCategory.map((item) => (
@@ -144,8 +165,8 @@ const Products = () => {
                 <h2 className='text-[22px] text-indigo-900 font-semibold font-jose pb-4'>Shop By Price</h2>
                 <label
                   className={`flex items-center gap-2 cursor-pointer rounded-md border p-2 transition mb-2 ${priceRange?.low === 0 && priceRange?.high === 99.99
-                      ? "border-indigo-600 bg-indigo-50"
-                      : "border-gray-300"
+                    ? "border-indigo-600 bg-indigo-50"
+                    : "border-gray-300"
                     }`}
                 >
                   <input
@@ -159,8 +180,8 @@ const Products = () => {
 
                 <label
                   className={`flex items-center gap-2 cursor-pointer rounded-md border p-2 transition mb-2 ${priceRange?.low === 100 && priceRange?.high === 199.99
-                      ? "border-indigo-600 bg-indigo-50"
-                      : "border-gray-300"
+                    ? "border-indigo-600 bg-indigo-50"
+                    : "border-gray-300"
                     }`}
                 >
                   <input
@@ -174,8 +195,8 @@ const Products = () => {
 
                 <label
                   className={`flex items-center gap-2 cursor-pointer rounded-md border p-2 transition mb-2 ${priceRange?.low === 200 && priceRange?.high === 999.99
-                      ? "border-indigo-600 bg-indigo-50"
-                      : "border-gray-300"
+                    ? "border-indigo-600 bg-indigo-50"
+                    : "border-gray-300"
                     }`}
                 >
                   <input
@@ -188,15 +209,121 @@ const Products = () => {
                 </label>
               </div>
             </div>
-            <div className='w-[78%]'>
+            <div className='lg:hidden flex justify-between items-center py-4'>
+              <div className={`pb-4`}>
+                <h2 className={`relative text-[16px] sm:text-[18px] text-white font-semibold font-jose py-2 px-4 sm:px-6 rounded-[5px] cursor-pointer ${selectedCategory ? "bg-blue-500" : "bg-black hover:bg-[#000000a7]" } `} onClick={() => setMcateOpen(!mcateOpen)}>Shop By Category</h2>
+                <div className={`pb-8 fixed top-0 left-0 bg-white shadow-2xl w-[60%] sm:w-[40%] md:w-[30%] px-2 py-6 z-[99999] h-screen transition-all duration-500 ease-in-out transform ${mcateOpen ? "translate-x-0" : "-translate-x-full"}`} ref={mcateRef}>
+                  <div className='flex items-center justify-between pb-6'>
+                    <img src={logo} alt="logo" className='w-26 cursor-pointer' />
+                    <div onClick={() => setMcateOpen(false)}>
+                      {mcateOpen ? <IoIosCloseCircle className='text-3xl text-indigo-700 cursor-pointer hover:scale-110 hover:text-red-500 transition-all duration-500 ease-in-out' /> : ""}
+                    </div>
+                  </div>
+                  {shopCategory.map((item) => (
+                    <div>
+                      <label
+                        key={item}
+                        className={`flex items-center gap-2 cursor-pointer rounded-md border p-2 transition mb-2 ${selectedCategory === item ? "border-indigo-600 bg-indigo-50" : "border-gray-300"}`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedCategory === item}
+                          onChange={() => handleShowCate(item)}
+                          onClick={() => setMcateOpen(false)}
+                          className="w-4 h-4 text-indigo-600 focus:ring-0 border-gray-300 rounded cursor-pointer"
+                        />
+                        <span className="text-gray-800 font-medium capitalize">{item}</span>
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className='pb-4'>
+                <div onClick={() => setMpriceOpen(!mpriceOpen)} className={`flex items-center gap-x-6 px-4 sm:px-6 py-2 rounded-[5px] text-white cursor-pointer ${priceRange ? "bg-blue-500" : "bg-black hover:bg-[#000000a7]" } `}>
+                  <h2 className='text-[16px] sm:text-[18px] font-semibold font-jose'>Filter</h2>
+                  <HiOutlineAdjustmentsHorizontal className='text-[22px] sm:text-[25px]' />
+                </div>
+                <div ref={mpriceRef} className={`pb-8 fixed top-0 right-0 bg-white shadow-2xl w-[60%] sm:w-[40%] md:w-[30%] px-2 py-6 z-[99999] h-screen transition-all duration-500 ease-in-out transform ${mpriceOpen ? "translate-x-0" : "translate-x-full"}`}>
+                  <div className='flex items-center justify-between pb-6'>
+                    <img src={logo} alt="logo" className='w-26 cursor-pointer' />
+                    <div onClick={() => setMpriceOpen(false)}>
+                      {mpriceOpen ? <IoIosCloseCircle className='text-3xl text-indigo-700 cursor-pointer hover:scale-110 hover:text-red-500 transition-all duration-500 ease-in-out' /> : ""}
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      className={`flex items-center gap-2 cursor-pointer rounded-md border p-2 transition mb-2 ${priceRange?.low === 0 && priceRange?.high === 99.99
+                        ? "border-indigo-600 bg-indigo-50"
+                        : "border-gray-300"
+                        }`}
+                    >
+                      <input
+                        type="checkbox"
+                        onClick={() => setMpriceOpen(false)}
+                        onChange={() => handleChanePrice({ low: 0, high: 99.99 })}
+                        checked={priceRange?.low === 0 && priceRange?.high === 99.99}
+                        className="w-4 h-4 text-indigo-600 focus:ring-0 border-gray-300 rounded cursor-pointer"
+                      />
+                      <span className="text-gray-800 font-medium">$0.00 - $99.99</span>
+                    </label>
+
+                    <label
+                      className={`flex items-center gap-2 cursor-pointer rounded-md border p-2 transition mb-2 ${priceRange?.low === 100 && priceRange?.high === 199.99
+                        ? "border-indigo-600 bg-indigo-50"
+                        : "border-gray-300"
+                        }`}
+                    >
+                      <input
+                        type="checkbox"
+                        onClick={() => setMpriceOpen(false)}
+                        onChange={() => handleChanePrice({ low: 100, high: 199.99 })}
+                        checked={priceRange?.low === 100 && priceRange?.high === 199.99}
+                        className="w-4 h-4 text-indigo-600 focus:ring-0 border-gray-300 rounded cursor-pointer"
+                      />
+                      <span className="text-gray-800 font-medium">$100.00 - $199.99</span>
+                    </label>
+
+                    <label
+                      className={`flex items-center gap-2 cursor-pointer rounded-md border p-2 transition mb-2 ${priceRange?.low === 200 && priceRange?.high === 999.99
+                        ? "border-indigo-600 bg-indigo-50"
+                        : "border-gray-300"
+                        }`}
+                    >
+                      <input
+                        type="checkbox"
+                        onClick={() => setMpriceOpen(false)}
+                        onChange={() => handleChanePrice({ low: 200, high: 999.99 })}
+                        checked={priceRange?.low === 200 && priceRange?.high === 999.99}
+                        className="w-4 h-4 text-indigo-600 focus:ring-0 border-gray-300 rounded cursor-pointer"
+                      />
+                      <span className="text-gray-800 font-medium">$200.00 - $999.99</span>
+                    </label>
+                    <div className='sm:hidden'>
+                      <div className='flex items-center gap-x-2 mt-6'>
+                        <label htmlFor="" className='text-[16px] text-indigo-900 font-medium font-jose'>
+                          Show:
+                        </label>
+                        <select onChange={handleChangeValue} name="" id="" className='px-6 border-2 py-1 border-gray-300 outline-0 rounded-[5px] text-[16px] text-indigo-900 font-medium font-jose'>
+                          <option value="12">12</option>
+                          <option value="15">15</option>
+                          <option value="18">18</option>
+                          <option value="21">21</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className='w-full lg:w-[78%]'>
               <div className='flex items-center justify-between pb-8'>
                 <div>
                   <div className='flex items-center gap-x-4'>
                     <div>
-                      <BsGridFill className={`cursor-pointer ${list == "" ? "p-[6px] text-[24px] text-white bg-blue-500 rounded-[5px]" : "p-[6px] text-[24px] text-white bg-blue-200 rounded-[5px]" }`} onClick={()=>setList("")} />
+                      <BsGridFill className={`cursor-pointer ${list == "" ? "p-[6px] text-[24px] text-white bg-blue-500 rounded-[5px]" : "p-[6px] text-[24px] text-white bg-blue-200 rounded-[5px]"}`} onClick={() => setList("")} />
                     </div>
                     <div>
-                      <FaListUl className={`cursor-pointer ${list == "active" ? "p-[6px] text-[24px] text-white bg-blue-500 rounded-[5px]" : "p-[6px] text-[24px] text-white bg-blue-200 rounded-[5px]" }`} onClick={handleListView} />
+                      <FaListUl className={`cursor-pointer ${list == "active" ? "p-[6px] text-[24px] text-white bg-blue-500 rounded-[5px]" : "p-[6px] text-[24px] text-white bg-blue-200 rounded-[5px]"}`} onClick={handleListView} />
                     </div>
                   </div>
                 </div>
@@ -213,16 +340,18 @@ const Products = () => {
                     </select>
                   </form>
                 </div>
-                <div className='flex items-center gap-x-2'>
-                  <label htmlFor="" className='text-[16px] text-indigo-900 font-medium font-jose'>
-                    Show:
-                  </label>
-                  <select onChange={handleChangeValue} name="" id="" className='px-6 border-2 py-1 border-gray-300 outline-0 rounded-[5px] text-[16px] text-indigo-900 font-medium font-jose'>
-                    <option value="12">12</option>
-                    <option value="15">15</option>
-                    <option value="18">18</option>
-                    <option value="21">21</option>
-                  </select>
+                <div className='hidden sm:block'>
+                  <div className='flex items-center gap-x-2'>
+                    <label htmlFor="" className='text-[16px] text-indigo-900 font-medium font-jose'>
+                      Show:
+                    </label>
+                    <select onChange={handleChangeValue} name="" id="" className='px-6 border-2 py-1 border-gray-300 outline-0 rounded-[5px] text-[16px] text-indigo-900 font-medium font-jose'>
+                      <option value="12">12</option>
+                      <option value="15">15</option>
+                      <option value="18">18</option>
+                      <option value="21">21</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <Post

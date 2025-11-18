@@ -71,7 +71,7 @@ const Post = ({ allPage, cateFilShow, list }) => {
 
   return (
     <div>
-      {catefilterSl.length > 0 ? <div className={`${list == "active" ? "grid grid-cols-1" : "grid grid-cols-3 gap-x-3"}`}>
+      {catefilterSl.length > 0 ? <div className={`${list == "active" ? "grid grid-cols-1" : "grid grid-cols-2 md:grid-cols-3 gap-x-3"}`}>
         {catefilterSl.map((item) => (
           <div key={item.id} className="bg-white rounded-[8px] shadow-xl mb-6">
             <div className='relative group'>
@@ -105,7 +105,7 @@ const Post = ({ allPage, cateFilShow, list }) => {
             </div>
           </div>
         ))}
-      </div> : <div className={`${list == "active" ? "grid grid-cols-1" : "grid grid-cols-3 gap-x-3"}`}>
+      </div> : <div className={`${list == "active" ? "grid grid-cols-1" : "grid grid-cols-2 md:grid-cols-3 gap-x-3"}`}>
         {allPage.map((item) => (
           <div key={item.id} className="bg-white rounded-[8px] shadow-xl mb-6">
             <div className='relative group overflow-hidden'>
