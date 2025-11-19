@@ -17,7 +17,7 @@ const BanDown = () => {
     <section className='md:pt-50'>
       <Container>
         <div>
-          <div className="py-12">
+          <div className="py-6 sm:py-12">
             <h2 className="text-xl sm:text-3xl md:text-4xl text-indigo-950 text-center pb-6 font-bold font-jose">Best Sellers in Men's Clothing</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {cateShow.map((item) => (

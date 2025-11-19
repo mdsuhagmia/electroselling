@@ -49,7 +49,7 @@ const WomensClothing = () => {
   };
 
   return (
-    <section className='py-12'>
+    <section className='py-6 sm:py-12'>
       <Container>
         <div>
           <h2 className="text-lg sm:text-3xl md:text-4xl text-indigo-950 text-center pb-6 font-bold font-jose">

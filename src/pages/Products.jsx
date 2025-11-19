@@ -140,7 +140,7 @@ const Products = () => {
 
   return (
     <>
-      <section className='pt-4 pb-12 lg:py-12'>
+      <section className='pt-0 pb-12 lg:py-12'>
         <Container>
           <div className='lg:flex justify-between'>
             <div className='w-[20%] hidden lg:block'>
@@ -210,7 +210,7 @@ const Products = () => {
               </div>
             </div>
             <div className='lg:hidden flex justify-between items-center py-4'>
-              <div className={`pb-4`}>
+              <div className={``}>
                 <h2 className={`relative text-[16px] sm:text-[18px] text-white font-semibold font-jose py-2 px-4 sm:px-6 rounded-[5px] cursor-pointer ${selectedCategory ? "bg-blue-500" : "bg-black hover:bg-[#000000a7]" } `} onClick={() => setMcateOpen(!mcateOpen)}>Shop By Category</h2>
                 <div className={`pb-8 fixed top-0 left-0 bg-white shadow-2xl w-[60%] sm:w-[40%] md:w-[30%] px-2 py-6 z-[99999] h-screen transition-all duration-500 ease-in-out transform ${mcateOpen ? "translate-x-0" : "-translate-x-full"}`} ref={mcateRef}>
                   <div className='flex items-center justify-between pb-6'>
@@ -238,7 +238,7 @@ const Products = () => {
                   ))}
                 </div>
               </div>
-              <div className='pb-4'>
+              <div className=''>
                 <div onClick={() => setMpriceOpen(!mpriceOpen)} className={`flex items-center gap-x-6 px-4 sm:px-6 py-2 rounded-[5px] text-white cursor-pointer ${priceRange ? "bg-blue-500" : "bg-black hover:bg-[#000000a7]" } `}>
                   <h2 className='text-[16px] sm:text-[18px] font-semibold font-jose'>Filter</h2>
                   <HiOutlineAdjustmentsHorizontal className='text-[22px] sm:text-[25px]' />
