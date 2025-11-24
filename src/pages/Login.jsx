@@ -14,7 +14,7 @@ const Login = () => {
   const {register, handleSubmit, formState: { errors },} = useForm()
   const {loginWithEmail} = useAuth()
   const navigate = useNavigate()
-  
+
   const onSubmit = async (data) => {
     try {
       await loginWithEmail(data.email, data.password);
@@ -85,26 +85,28 @@ const Login = () => {
                 <label className='text-white text-[15px] sm:text-[16px] font-bold'>
                   Your Password
                 </label>
-                <div className='relative'>
-                  <input
-                    {...register("password", {
-                      required: "Password is required",
-                      minLength: {
-                        value: 6,
-                        message: "Password must be least 6 character long",
-                      }
-                    })}
-                    type={showPass ? "text" : "password"}
-                    required
-                    placeholder='Enter Your Password'
-                    className='py-3 px-4 w-full bg-white rounded-[5px] text-[14px] sm:text-[16px] font-bold outline-none border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 mt-2 mb-4 placeholder:text-[14px]'
-                  />
-                  <span
-                    onClick={() => setShowPass(!showPass)}
-                    className="absolute right-[5%] top-[50%] -translate-y-[50%] text-gray-600 cursor-pointer text-xl"
-                  >
-                    {showPass ? <FaEyeSlash /> : <FaEye />}
-                  </span>
+                <div>
+                  <div className='relative'>
+                    <input
+                      {...register("password", {
+                        required: "Password is required",
+                        minLength: {
+                          value: 6,
+                          message: "Password must be least 6 character long",
+                        }
+                      })}
+                      type={showPass ? "text" : "password"}
+                      required
+                      placeholder='Enter Your Password'
+                      className='py-3 px-4 w-full bg-white rounded-[5px] text-[14px] sm:text-[16px] font-bold outline-none border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 mt-2 mb-4 placeholder:text-[14px]'
+                    />
+                    <span
+                      onClick={() => setShowPass(!showPass)}
+                      className="absolute right-[5%] top-[50%] -translate-y-[50%] text-gray-600 cursor-pointer text-xl"
+                    >
+                      {showPass ? <FaEyeSlash /> : <FaEye />}
+                    </span>
+                  </div>
                   {errors.password && <p className="text-sm italic font-jose font-medium text-red-500">{errors.password.message}</p>}
                 </div>
               </div>
